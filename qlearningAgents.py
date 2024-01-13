@@ -38,132 +38,126 @@ class QLearningAgent(ReinforcementAgent):
         - self.getLegalActions(state)
           which returns legal actions for a state
     """
+
     def __init__(self, **args):
         "You can initialize Q-values here..."
         ReinforcementAgent.__init__(self, **args)
-
         "*** YOUR CODE HERE ***"
-        #todo define qval - counter -  a dictionary
+        # todo define qval - counter -  a dictionary
         self.qval = util.Counter()
+
     def getQValue(self, state, action):
         """
-          Returns Q(state,action)
-          Should return 0.0 if we have never seen a state
-          or the Q node value otherwise
+        Returns Q(state,action)
+        Should return 0.0 if we have never seen a state
+        or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
-        #getter for qval
-        return self.qval[(state,action)]
-
-        util.raiseNotDefined()
-
-
+        # getter for qval
+        return self.qval[(state, action)]
 
     def computeValueFromQValues(self, state):
         """
-          Returns max_action Q(state,action)
-          where the max is over legal actions.  Note that if
-          there are no legal actions, which is the case at the
-          terminal state, you should return a value of 0.0.
+        Returns max_action Q(state,action)
+        where the max is over legal actions.  Note that if
+        there are no legal actions, which is the case at the
+        terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
-        #todo set terminal and get actions
+        # todo set terminal and get actions
         terminal = float('-inf')
-        actions = self.getLegalActions(self)
+        actions = self.getLegalActions(state)
+
 
         for action in actions:
+            # todo update terminal -> max val
             val = self.getQValue(state, action)
-            #todo update terminal - max()
-            terminal = max(terminal, val)
+            if val >= terminal:
+                terminal = val
 
-
-        if terminal == float('-inf'):
-            return 0.0
-        else:
+        if terminal != float('-inf'):
             return terminal
-
-
-        util.raiseNotDefined()
+        else:
+            return 0.0
 
     def computeActionFromQValues(self, state):
         """
-          Compute the best action to take in a state.  Note that if there
-          are no legal actions, which is the case at the terminal state,
-          you should return None.
+        Compute the best action to take in a state.  Note that if there
+        are no legal actions, which is the case at the terminal state,
+        you should return None.
         """
-        "*** YOUR CODE HERE ***"
 
         # todo set and get
         #  legal actions and
         #  an action list a
         #  and get values for the state
         actions = self.getLegalActions(state)
+        terminal = -float('inf')
         a = list()
-        value = self.computeValueFromQValues(state)
 
-        #todo check if there still are legal actions left
+        # todo check if there still are legal actions left
         if len(actions) == 0:
             return None
 
+        #todo calc max val
         for action in actions:
-            val = self.getQValue(state,action)
-            #add actions to action list if condition valid
-            if value == val:
+            val = self.getQValue(state, action)
+            if val > terminal:
+                terminal = val
+
+        for action in actions:
+            val = self.getQValue(state, action)
+            if val == terminal:
                 a.append(action)
 
-        #todo pick a random action form the list
-        rnd = random.choice(a)
-        return rnd
+        #todo return according to treminal value
+        if terminal == float('-inf'):
+            terminalA = None
+        else:
+            terminalA = random.choice(a)
 
 
-
+        return terminalA
 
     def getAction(self, state):
         """
-          Compute the action to take in the current state.  With
-          probability self.epsilon, we should take a random action and
-          take the best policy action otherwise.  Note that if there are
-          no legal actions, which is the case at the terminal state, you
-          should choose None as the action.
+        Compute the action to take in the current state.  With
+        probability self.epsilon, we should take a random action and
+        take the best policy action otherwise.  Note that if there are
+        no legal actions, which is the case at the terminal state, you
+        should choose None as the action.
 
-          HINT: You might want to use util.flipCoin(prob)
-          HINT: To pick randomly from a list, use random.choice(list)
+        HINT: You might want to use util.flipCoin(prob)
+        HINT: To pick randomly from a list, use random.choice(list)
         """
         # Pick Action
         legalActions = self.getLegalActions(state)
-        action = None
-        "*** YOUR CODE HERE ***"
-        #todo use flipcoin to randomize
+
+        # todo return statement in case of terminal state
+        if len(legalActions) == 0:
+            return None
+
+        # todo use flipcoin to randomize
         if util.flipCoin(self.epsilon):
             action = random.choice(legalActions)
         else:
             action = self.computeActionFromQValues(state)
-        #todo return statement in case of terminal state
-        return action
-
-
-        util.raiseNotDefined()
 
         return action
 
     def update(self, state, action, nextState, reward):
         """
-          The parent class calls this to observe a
-          state = action => nextState and reward transition.
-          You should do your Q-Value update here
+        The parent class calls this to observe a
+        state = action => nextState and reward transition.
+        You should do your Q-Value update here
 
-          NOTE: You should never call this function,
-          it will be called on your behalf
+        NOTE: You should never call this function,
+        it will be called on your behalf
         """
-        "*** YOUR CODE HERE ***"
-        #todo get the old value and updated one
-        old = self.qval[(state,action)]
-        updated =reward + (self.discount * self.computeValueFromQValues(nextState))
-
+        # todo get the old value and updated one
+        old = self.getQValue(state, action)
+        updated = reward + (self.discount * self.computeValueFromQValues(nextState))
         self.qval[(state, action)] = (1 - self.alpha) * old + self.alpha * updated
-
-
-        util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
@@ -226,6 +220,8 @@ class ApproximateQAgent(PacmanQAgent):
           where * is the dotProduct operator
         """
         "*** YOUR CODE HERE ***"
+
+
         util.raiseNotDefined()
 
     def update(self, state, action, nextState, reward):
