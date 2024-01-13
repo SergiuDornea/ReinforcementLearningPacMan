@@ -73,7 +73,7 @@ class ValueIterationAgent(ValueEstimationAgent):
             # TODO iterate trough state
             for state in self.mdp.getStates():
                 # Initialize the value for the state to negative infinity
-                self.values[state] = -float('inf')
+                self.values[state] = float('-inf')
 
                 # todo iterate trough actions
                 for action in self.mdp.getPossibleActions(state):
@@ -88,7 +88,7 @@ class ValueIterationAgent(ValueEstimationAgent):
                     self.values[state] = max(self.values[state], val)
 
                 # todo check if maxVal not equal to neg inf
-                if self.values[state] == -float('inf'):
+                if self.values[state] == float('-inf'):
                     self.values[state] = 0.0
 
     def getValue(self, state):
