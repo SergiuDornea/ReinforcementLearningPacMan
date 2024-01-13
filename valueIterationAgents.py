@@ -63,6 +63,33 @@ class ValueIterationAgent(ValueEstimationAgent):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
 
+        # TODO setam var necesare
+        iterations = self.iterations
+
+        # TODO iterate
+        for iteration in range(iterations):
+            values = self.values.copy()
+
+            # TODO iterate trough state
+            for state in self.mdp.getStates():
+                # Initialize the value for the state to negative infinity
+                self.values[state] = -float('inf')
+
+                # todo iterate trough actions
+                for action in self.mdp.getPossibleActions(state):
+                    val = 0
+
+
+                    for next_state, probability in self.mdp.getTransitionStatesAndProbs(state, action):
+                        # todo update val
+                        val += probability * (self.mdp.getReward(state, action, next_state) + self.discount * values[next_state])
+
+                    # todo update current state to max val if val is greater than acutal max
+                    self.values[state] = max(self.values[state], val)
+
+                # todo check if maxVal not equal to neg inf
+                if self.values[state] == -float('inf'):
+                    self.values[state] = 0.0
 
     def getValue(self, state):
         """
@@ -77,7 +104,24 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        qVal = 0
+
+
+
+
+        # todo int qVal
+        qVal = 0
+
+        # todo set state and probability - getTransitionStatesAndProbs(state, action) and iterate all
+        for s, p in self.mdp.getTransitionStatesAndProbs(state, action):
+            #todo calculate imediat reward
+            reword = self.mdp.getReward(state, action, s)
+            #todo update qVal
+            qVal = qVal + p * (reword + self.discount * self.values[s])
+
+        # Return the calculated Q-value
+        return qVal
 
     def computeActionFromValues(self, state):
         """
@@ -89,7 +133,39 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
+        #Todo check for terminal state
+        if self.mdp.isTerminal(state):
+            return None
+
+        # todo set vals
+        maxValue = float('-inf')
+        a =  None
+
+        #todo loop trough actions
+        for action in self.mdp.getPossibleActions(state):
+            val = self.computeQValueFromValues(state, action)
+
+            #todo update max val if bigger val found
+            if val > maxValue:
+                maxValue, a = val, action
+
+        # Return the action with the highest Q-value
+        return a
+
+    def getPolicy(self, state):
+        return self.computeActionFromValues(state)
+
+    def getAction(self, state):
+        "Returns the policy at the state (no exploration)."
+        return self.computeActionFromValues(state)
+
+    def getQValue(self, state, action):
+        return self.computeQValueFromValues(state, action)
+
+
         util.raiseNotDefined()
+
+
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
