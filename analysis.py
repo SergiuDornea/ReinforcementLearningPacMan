@@ -25,38 +25,38 @@ def question2():
     #todo , adica agentul va merge tot timpul in directia actiunii alese
     return answerDiscount, answerNoise
 
-def question3a():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+def question3a(): #todo 1.	preferam ieșirea cea mai apropiata, (+1) dar in condițiile RISK the cliffs (-10)
+    answerDiscount = 0.1
+    answerNoise = 0
+    answerLivingReward = -1
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
-def question3b():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+def question3b():#todo 	preferam ieșirea cea mai apropiata (+1) dar in condițiile AVOID the cliffs (-10)
+    answerDiscount = 0.2
+    answerNoise = 0.08
+    answerLivingReward = 0.5
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
-def question3c():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+def question3c():#todo 	preferam ieșirea cea mai depărtată (+10) in condițiile RISK the cliffs (-10)
+    answerDiscount = 1
+    answerNoise = 0
+    answerLivingReward = -1
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
-def question3d():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+def question3d():#todo	preferam ieșirea cea mai depărtată (+10) in condițiile AVOID the cliffs (-10)
+    answerDiscount = 0.4
+    answerNoise = 0.2
+    answerLivingReward = 5
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
-def question3e():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+def question3e():#todo  evitam atât cele 2 ieșiri cat si cliffs, deci episodul nu se termina niciodată
+    answerDiscount = 0.2
+    answerNoise = 0
+    answerLivingReward = 10
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
