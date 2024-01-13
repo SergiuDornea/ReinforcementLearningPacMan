@@ -21,7 +21,8 @@
 
 def question2():
     answerDiscount = 0.9
-    answerNoise = 0.2
+    answerNoise = 0 # todo am setat sansa ca agentul sa cada in stanga sau in dreapta la 0
+    #todo , adica agentul va merge tot timpul in directia actiunii alese
     return answerDiscount, answerNoise
 
 def question3a():
